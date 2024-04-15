@@ -1,16 +1,19 @@
-# staff-analyzer
-## Assumptions
+# Employee Department
+
+## Task details
+
+### Assumptions
 Main assumption is that employees are sorted. First is the CEO, then comes manager and manager's subordinates.
 So the situation where subordinate comes before subordinate's manager is impossible.
 
-## Usage Instructions
+### Usage Instructions
 Put csv file into resources folder and run the app. The result will appear in console in three sections:
 - Underpaid managers
 - Overpaid managers
 - Employees with too many managers
 
 
-## Task Description
+### Task Description
 
 BIG COMPANY is employing a lot of employees. Company would like to analyze its organizational
 structure and identify potential improvements. Board wants to make sure that every manager earns
@@ -46,3 +49,12 @@ Key points:
 
 When you're ready with your assignment please send us link to an online code repository (github,
   bitbucket, etc.) so we can review your code.
+
+## Implementation details
+Implementation provides thread safe service that provides three collections that requested by task with objects 
+employees and required data:
+
+-     getHighSalaryManagers - returns managers with higher salary and amount;
+-     getLowSalaryManagers - returns managers with lower salary and amount;
+-     getWrongDepartmentStructureManagers - returns employees with long managers line;
+

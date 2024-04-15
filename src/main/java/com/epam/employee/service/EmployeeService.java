@@ -29,12 +29,12 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public Map<Employee, Double> getHighSalaryManagers() {
-        return highSalaryManagers;
+        return new HashMap<>(highSalaryManagers);
     }
 
     @Override
     public Map<Employee, Double> getLowSalaryManagers() {
-        return lowSalaryManagers;
+        return new HashMap<>(lowSalaryManagers);
     }
 
     @Override
