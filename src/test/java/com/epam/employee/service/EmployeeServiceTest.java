@@ -24,12 +24,12 @@ public class EmployeeServiceTest {
         employees.put(employee.id(), employee);
 
         //when
-        IEmployeeService employeeService = new EmployeeService(employees);
+        EmployeeService employeeService = new EmployeeServiceImpl();
 
         //then
-        var actualResult = employeeService.getHighSalaryManagers();
-        assertEquals(1, actualResult.size());
-        assertEquals(3400, actualResult.get(expectedEmployee));
+        var actualResult = employeeService.analyzeEmployee(employees);
+        assertEquals(1, actualResult.getHighSalaryManagers().size());
+        assertEquals(3400, actualResult.getHighSalaryManagers().get(expectedEmployee));
     }
 
     @Test
@@ -43,11 +43,11 @@ public class EmployeeServiceTest {
         employees.put(expectedEmployee.id(), expectedEmployee);
         employees.put(employee.id(), employee);
 
-        IEmployeeService employeeService = new EmployeeService(employees);
+        EmployeeService employeeService = new EmployeeServiceImpl();
 
-        var actualResult = employeeService.getLowSalaryManagers();
-        assertEquals(1, actualResult.size());
-        assertEquals(20280, actualResult.get(expectedEmployee));
+        var actualResult = employeeService.analyzeEmployee(employees);
+        assertEquals(1, actualResult.getLowSalaryManagers().size());
+        assertEquals(20280, actualResult.getLowSalaryManagers().get(expectedEmployee));
     }
 
     @Test
@@ -65,21 +65,22 @@ public class EmployeeServiceTest {
         employees.put(employee3.id(), employee3);
         employees.put(expectedEmployee.id(), expectedEmployee);
 
-        IEmployeeService employeeService = new EmployeeService(employees);
+        EmployeeService employeeService = new EmployeeServiceImpl();
 
-        var actualResult = employeeService.getWrongDepartmentStructureManagers();
-        assertEquals(1, actualResult.size());
-        assertEquals(expectedEmployee, actualResult.get(0));
+        var actualResult = employeeService.analyzeEmployee(employees);
+        assertEquals(1, actualResult.getWrongManagersLineEmployee().size());
+        assertEquals(expectedEmployee, actualResult.getWrongManagersLineEmployee().get(0));
     }
 
     @Test
     void test_empty_employees_tp_process() {
         Map<Integer, Employee> employees = new HashMap<>();
-        EmployeeService employeeService = new EmployeeService(employees);
+        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
 
-        assertEquals(0, employeeService.getHighSalaryManagers().size());
-        assertEquals(0, employeeService.getLowSalaryManagers().size());
-        assertEquals(0, employeeService.getWrongDepartmentStructureManagers().size());
+        var actualResult = employeeService.analyzeEmployee(employees);
+        assertEquals(0, actualResult.getHighSalaryManagers().size());
+        assertEquals(0, actualResult.getLowSalaryManagers().size());
+        assertEquals(0, actualResult.getWrongManagersLineEmployee().size());
     }
 
 

@@ -1,8 +1,9 @@
 package com.epam.employee;
 
 import com.epam.employee.domain.FileValidationException;
+import com.epam.employee.domain.ReportResult;
+import com.epam.employee.service.EmployeeServiceImpl;
 import com.epam.employee.service.EmployeeService;
-import com.epam.employee.service.IEmployeeService;
 import com.epam.employee.utils.FileParser;
 
 import java.io.IOException;
@@ -16,17 +17,21 @@ public class EmployeeDepartment {
 
         try {
             var employees = fileParser.readEmployeeFromSCVFile(FILE_NAME);
-            IEmployeeService employeeService = new EmployeeService(employees);
+            EmployeeService employeeService = new EmployeeServiceImpl();
 
+            ReportResult report = employeeService.analyzeEmployee(employees);
             System.out.println("-= Managers with higher salary =-");
-            employeeService.getHighSalaryManagers().entrySet().stream()
+            report.getHighSalaryManagers().entrySet().stream()
                     .forEach(entry -> System.out.println(String.format("Manager %d has higher salary on %.1f", entry.getKey().id(), entry.getValue())));
             System.out.println("-= Managers with lower salary =-");
-            employeeService.getLowSalaryManagers().entrySet().stream()
+            report.getLowSalaryManagers().entrySet().stream()
                     .forEach(entry -> System.out.println(String.format("Manager %d has lower salary on %.1f", entry.getKey().id(), entry.getValue())));
             System.out.println("-= Employees with long managers line =-");
-            employeeService.getWrongDepartmentStructureManagers().stream()
+
+            report.getWrongManagersLineEmployee().stream()
                     .forEach(employee -> System.out.println(String.format("Employee %d has wrong managers line", employee.id())));
+
+
         } catch (IOException | FileValidationException exception) {
             exception.printStackTrace();
         }
